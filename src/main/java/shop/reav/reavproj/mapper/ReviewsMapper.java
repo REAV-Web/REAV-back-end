@@ -17,7 +17,7 @@ public interface ReviewsMapper {
     int insertReview(@Param("itemID") int itemID, @Param("user") String user, @Param("email") String email, @Param("review") String review, @Param("rating") int rating);
 
     ///review get
-    @Select("SELECT * FROM Reviews")
+    @Select("SELECT * FROM reviews")
     List<Reviews> getReviewsList();
 
     ///weight get

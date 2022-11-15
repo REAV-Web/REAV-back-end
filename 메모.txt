@@ -1,5 +1,5 @@
 git add .
-git commit -m "SQL 테스트"
+git commit -m "reviews database connection test"
 git push origin master 
 
 
