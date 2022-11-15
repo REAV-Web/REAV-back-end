@@ -22,9 +22,9 @@ public interface ReviewsMapper {
 
     ///weight get
     @Select("SELECT AVG(weight) FROM reviews WHERE itemID = #{itemID}")
-    int getReviewWeight(@Param("itemID") int itemID);
+    double getReviewWeight(@Param("itemID") int itemID);
 
     ///rating get
     @Select("SELECT AVG(rating) FROM reviews WHERE itemID = #{itemID}")
-    int getReviewRating(@Param("itemID") int itemID);
+    double getReviewRating(@Param("itemID") int itemID);
 }

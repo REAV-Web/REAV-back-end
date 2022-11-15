@@ -31,12 +31,12 @@ public class ReviewsController {
     }
 
     @GetMapping("/weight/{itemID}")
-    public int getReviewWeight(@PathVariable("itemID") int itemID) {
+    public double getReviewWeight(@PathVariable("itemID") int itemID) {
         return mapper.getReviewWeight(itemID);
     }
 
     @GetMapping("/rating/{itemID}")
-    public int getReviewRating(@PathVariable("itemID") int itemID) {
+    public double getReviewRating(@PathVariable("itemID") int itemID) {
         return mapper.getReviewRating(itemID);
     }
 }
