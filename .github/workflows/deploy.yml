@@ -1,0 +1,65 @@
+name: REAV-back-end master
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: # (2) 수동 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # (3)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2 # (4)
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1 # (5)
+        with:
+          java-version: 11
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew # (6)
+        shell: bash
+
+      - name: Build with Gradle
+        run: ./gradlew clean build # (7)
+        shell: bash
+
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2 
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss # (1)
+          utcOffset: "+09:00"
+
+      - name: Show Current Time
+        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}" # (2)
+        shell: bash
+
+        # grandle build를 통해 만들어진 jar를 beanstalk에 배포하기 위한 zip 파일로 만드는 것
+      - name: Generate deployment package # (1)
+        run: |
+          mkdir -p deploy
+          cp build/libs/*.jar deploy/application.jar
+          cp Procfile deploy/Procfile
+          cp -r .ebextensions deploy/.ebextensions
+          cp -r .platform deploy/.platform
+          cd deploy && zip -r deploy.zip .
+
+
+        # Beanstalk Deploy 플러그인 사용
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: reav
+          environment_name: Reav-env-1
+          # version_label: 12345
+          version_label: Github Action-${{steps.current-time.outputs.formattedTime}} # 배포 버전은 타임스탬프를 이용하여 구분
+          region: ap-northeast-1
+          deployment_package: deploy/deploy.zip
+          # wait_for_environment_recovery: 180 # default wait time은 30초이며, 필자의 EB가 느려서 180초로 지정했습니다(지정 안하면 간혹 timeout 발생).
+ 
