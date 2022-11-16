@@ -19,7 +19,6 @@ import java.net.HttpURLConnection;
 
 import java.util.logging.Logger;
 
-@CrossOrigin("*")
 @RestController
 public class ReviewsController {
 
