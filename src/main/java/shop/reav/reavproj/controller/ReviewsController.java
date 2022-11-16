@@ -5,7 +5,6 @@ import shop.reav.reavproj.model.Reviews;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,13 +34,28 @@ public class ReviewsController {
 
         double weight = 0;
 
+        try{
+            URL url = new URL("http://5a57-59-12-219-18.ngrok.io/" + review);
+            LOG.info(url + " ");
+            LOG.info(url + " ");
+            LOG.info(url + " ");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            String line = in.readLine();
+            LOG.info(line);
+            //weight = Double.parseDouble(line);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         mapper.insertReview(itemID, user, email, review, rating, weight);
         return review + " " + weight;
     }
 
-    @GetMapping("/review")
-    public List<Reviews> getUserProfileList() {
-        return mapper.getReviewsList();
+    @GetMapping("/review/{itemID}")
+    public List<Reviews> getUserProfileList(@PathVariable("itemID") int itemID) {
+        return mapper.getReviewsList(itemID);
     }
 
     @GetMapping("/weight/{itemID}")
