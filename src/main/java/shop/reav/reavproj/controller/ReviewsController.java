@@ -19,8 +19,8 @@ import java.net.HttpURLConnection;
 
 import java.util.logging.Logger;
 
+@CrossOrigin(origins = "*")
 @RestController
-@CrossOrigin("*")
 public class ReviewsController {
 
     private final static Logger LOG = Logger.getGlobal();
@@ -58,7 +58,6 @@ public class ReviewsController {
         return review + " " + weight;
     }
 
-    @CrossOrigin("*")
     @GetMapping("/review")
     public List<Reviews> getUserProfileList() {
         return mapper.getReviewsList();
