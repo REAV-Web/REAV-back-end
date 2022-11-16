@@ -1,5 +1,5 @@
 git add .
-git commit -m "deploy server and database (modified return data type)"
+git commit -m "test - apply cors "
 git push origin master 
 
 
