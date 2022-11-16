@@ -58,6 +58,7 @@ public class ReviewsController {
         return review + " " + weight;
     }
 
+    @CrossOrigin("*")
     @GetMapping("/review")
     public List<Reviews> getUserProfileList() {
         return mapper.getReviewsList();
