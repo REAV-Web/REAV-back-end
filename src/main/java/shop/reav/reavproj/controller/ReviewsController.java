@@ -20,7 +20,7 @@ import java.net.HttpURLConnection;
 import java.util.logging.Logger;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin("*")
 public class ReviewsController {
 
     private final static Logger LOG = Logger.getGlobal();

@@ -4,3 +4,5 @@ git push origin master
 
 
 서버 애플리케이션을 개발할 떄는 멤버 변수들을 모두 private이라 하고, 멤버 변수에 접근해서 값을 얻고 저장할 getter, setter를 만들자
+
+cors 적용 여부 테스트: https://cors-test.codehappy.dev/
