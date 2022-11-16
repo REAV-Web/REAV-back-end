@@ -13,8 +13,8 @@ import shop.reav.reavproj.model.Reviews;
 public interface ReviewsMapper {
      
     ///review post
-    @Insert("INSERT INTO reviews (itemID, USER, email, review, rating) VALUES (#{itemID}, #{user}, #{email}, #{review}, #{rating})")
-    int insertReview(@Param("itemID") int itemID, @Param("user") String user, @Param("email") String email, @Param("review") String review, @Param("rating") int rating);
+    @Insert("INSERT INTO reviews (itemID, user, email, review, rating, weight) VALUES (#{itemID}, #{user}, #{email}, #{review}, #{rating}, #{weight})")
+    int insertReview(@Param("itemID") int itemID, @Param("user") String user, @Param("email") String email, @Param("review") String review, @Param("rating") int rating, @Param("weight") double weight);
 
     ///review get
     @Select("SELECT * FROM reviews")
