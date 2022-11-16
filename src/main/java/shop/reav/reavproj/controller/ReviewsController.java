@@ -19,7 +19,7 @@ import java.net.HttpURLConnection;
 
 import java.util.logging.Logger;
 
-@CrossOrigin(origins = "https://cors-test.codehappy.dev/")
+@CrossOrigin("*")
 @RestController
 public class ReviewsController {
 
@@ -35,24 +35,6 @@ public class ReviewsController {
     public String postReview(@PathVariable("itemID") int itemID, @RequestParam("user") String user, @RequestParam("email") String email, @RequestParam("review") String review, @RequestParam("rating") int rating) {
 
         double weight = 0;
-        try{
-            URL url = new URL("http://17a1-59-12-219-18.ngrok.io/" + review);
-            LOG.info(url + " ");
-            LOG.info(url + " ");
-            LOG.info(url + " ");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            String line;
-            while((line = in.readLine()) != null) { // response를 차례대로 출력
-                LOG.info(url + " : " + line);
-                LOG.info(url + " : " + line);
-                LOG.info(url + " : " + line);
-            }
-            weight = Double.parseDouble(line);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
 
         mapper.insertReview(itemID, user, email, review, rating, weight);
         return review + " " + weight;
