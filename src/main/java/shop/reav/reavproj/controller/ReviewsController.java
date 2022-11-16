@@ -19,7 +19,7 @@ import java.net.HttpURLConnection;
 
 import java.util.logging.Logger;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://joelwross.github.io/cors-test/", "https://cors-test.codehappy.dev/")
 @RestController
 public class ReviewsController {
 
