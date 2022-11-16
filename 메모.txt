@@ -1,5 +1,5 @@
 git add .
-git commit -m "test - enable cors - review"
+git commit -m "test - enable cors"
 git push origin master 
 
 
