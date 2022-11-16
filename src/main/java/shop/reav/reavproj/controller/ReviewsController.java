@@ -15,6 +15,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.HttpURLConnection;
+import java.net.URLDecoder;
+
+import java.nio.charset.*;
 
 import java.util.logging.Logger;
 
@@ -32,22 +35,45 @@ public class ReviewsController {
     @PostMapping("/review/{itemID}")
     public String postReview(@PathVariable("itemID") int itemID, @RequestParam("user") String user, @RequestParam("email") String email, @RequestParam("review") String review, @RequestParam("rating") int rating) {
 
-        double weight = 0;
+        String response = "";
 
         try{
-            URL url = new URL("http://5a57-59-12-219-18.ngrok.io/" + review);
-            LOG.info(url + " ");
-            LOG.info(url + " ");
-            LOG.info(url + " ");
+           
+            String original_url = "http://7ef6-59-12-219-18.ngrok.io/" + review;
+            original_url = original_url.trim();
+            original_url = original_url.replace(" ", "%20");
+            URL url = new URL(original_url);
+
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            String line = in.readLine();
-            LOG.info(line);
-            //weight = Double.parseDouble(line);
+            conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+            conn.setConnectTimeout(5000); // 연결 타임아웃 설정(5초) 
+			conn.setReadTimeout(5000); // 읽기 타임아웃 설정(5초)
+			conn.setDoOutput(true);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String inputLine;			
+			StringBuffer sb = new StringBuffer();
+			while ((inputLine = br.readLine()) != null) {
+
+                System.out.println("input liner: " + inputLine);
+                System.out.println("input liner: " + inputLine);
+                System.out.println("input liner: " + inputLine);
+                System.out.println("input liner: " + inputLine);
+                System.out.println("input liner: " + inputLine);
+
+				sb.append(inputLine);
+			}
+			br.close();
+
+            response = sb.toString();
         }catch(Exception e){
             e.printStackTrace();
         }
+ 
+        String parsed = response.substring(response.indexOf(":") + 1, response.indexOf("}"));
+        double weight = Double.parseDouble(parsed);
 
         mapper.insertReview(itemID, user, email, review, rating, weight);
         return review + " " + weight;
